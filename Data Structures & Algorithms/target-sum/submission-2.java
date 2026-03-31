@@ -1,0 +1,27 @@
+class Solution {
+    HashMap<String,Integer> memo = new HashMap<>();
+    public int findTargetSumWays(int[] nums, int target) {
+        int ans = solve(nums,target,0,0);
+        return ans;
+    }
+    public int solve(int[] nums,int target, int index,int currsum){
+        int m = nums.length;
+        // Base Case
+        if(index==m){
+            if(currsum==target){
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+        String key = index + "," + currsum;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+        int sum  = solve(nums,target,index+1,currsum+nums[index]);
+        int subtract = solve(nums,target,index+1,currsum-nums[index]);
+        memo.put(key,sum+subtract);
+
+        return sum + subtract;
+    }
+}
